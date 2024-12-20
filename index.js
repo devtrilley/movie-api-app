@@ -26,9 +26,11 @@ app.get("/search", async (req, res) => {
   }
 
   try {
+    // We will wait for axios to get data back from the API before continuing
+    // The data sent will be saved in "response"
     const response = await axios.get(
-      "https://api.themoviedb.org/3/search/movie",
-      {
+      "https://api.themoviedb.org/3/search/movie", // URL Param we send GET request to
+      { // Config object with params that Axios will append to URL
         params: {
           api_key: process.env.MOVIEDB_API_KEY, // .env file API key property
           query: query, // The users search query
@@ -36,10 +38,10 @@ app.get("/search", async (req, res) => {
       }
     );
 
-    res.json(response.data.results);
-  } catch (error) {
+    res.json(response.data.results); // Where the movie data is stored
+  } catch (error) { // If there's an error in try, catch block is ran
     console.log(`Error fetching movies: ${error.message}`);
-    res.status(500).json({ error: "Failed to fetch movies" });
+    res.status(500).json({ error: "Failed to fetch movies" }); // Sets status code to 500 (internal error)
   }
 });
 
