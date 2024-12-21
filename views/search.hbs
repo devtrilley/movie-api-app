@@ -32,7 +32,13 @@
               -
               {{releaseDate}}
               {{! Button that goes along with list item. We placed it in a form so we can use that form to submit a get request to /similar endpoint. }}
-              <form action="/similar" method="GET" style="display: inline;">
+              {{! Since this is a form we need the preventDefault other wise it will refresh our page and wipe our our search results list while rendering "similar movies" }}
+              <form
+                class="find-similar-form"
+                action="/similar"
+                method="GET"
+                style="display: inline;"
+              >
                 {{! Input not displayed, but holds movie_id we need for /similar. }}
                 <input type="hidden" name="movie_id" value="{{id}}" />
                 {{! Button that selects movie and triggers /similar. Submits form }}

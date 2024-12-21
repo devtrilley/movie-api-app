@@ -80,6 +80,7 @@ app.get("/search", async (req, res) => {
 // Sets up route for /similar, to see similar movies
 app.get("/similar", async (req, res) => {
   const movieId = req.query.movie_id; // Gets selected Movie's ID from the query params
+  console.log(movieId);
 
   // Error check If there is no movie ID or if the value passed isn't a number, which we can only accept
   if (!movieId || isNaN(movieId)) {
