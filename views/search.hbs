@@ -1,0 +1,68 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Similar Movies Finder</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <h1>Similar Movies Finder</h1>
+
+    {{! Should be a form,  search form }}
+    <form class="search-form">
+      {{! Where users will type movie name they want to search, the "query" }}
+      <input class="search-query-input" type="text" />
+      {{! Button users click to submit query and begin search. Triggers /search endpoint }}
+      <button type="submit" class="search-btn">Search</button>
+    </form>
+
+    {{! Search results list, should be a section }}
+    <div>
+      <h2>Search Results:</h2>
+      {{! This is where we'll dynamically populate our list of search results }}
+      <ul class="search-results">
+        {{! If movies array from /search is truthy, then run the if block. Else, run the else block }}
+        {{#if movies}}
+          {{! Iterates over each movie in movies array. FOR EACH movie obj, the block of HTML code inside #each helper is rendered }}
+          {{#each movies}}
+            {{! List item that's made for each movie }}
+            <li>
+              {{! Title and year released first }}
+              {{title}}
+              -
+              {{releaseDate}}
+              {{! Button that goes along with list item. We placed it in a form so we can use that form to submit a get request to /similar endpoint. }}
+              <form action="/similar" method="GET" style="display: inline;">
+                {{! Input not displayed, but holds movie_id we need for /similar. }}
+                <input type="hidden" name="movie_id" value="{{id}}" />
+                {{! Button that selects movie and triggers /similar. Submits form }}
+                <button type="submit">Find Similar</button>
+              </form>
+            </li>
+          {{/each}}
+        {{else}}
+          {{! Error message if movie selected doesn't have similar movies }}
+          <li>No movies found. Try another search.</li>
+        {{/if}}
+      </ul>
+    </div>
+
+    {{! Similar movies list, should be a section. After user clicks on a movie in search results, similar movies appear here }}
+    <div>
+      <h2>Similar Movies:</h2>
+      {{! This is where we'll dynamically populate our list of similar movies }}
+      <ul class="similar-movies">
+        {{! If similarMovies was found, for each movie, make a list item for it with the title and release date.}}
+        {{#if similarMovies}}
+          {{#each similarMovies}}
+            <li>{{title}} - {{releaseDate}}</li>
+          {{/each}}
+        {{else}}
+          <li>No similar movies to show.</li>
+        {{/if}}
+      </ul>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
